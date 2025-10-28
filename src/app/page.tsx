@@ -6,7 +6,7 @@ export default function Home() {
       <section className="max-w-5xl w-full px-6 py-16 flex flex-col items-center text-center gap-8">
         <div className="w-full relative aspect-[16/9] overflow-hidden rounded-2xl shadow-lg">
           <Image
-            src="/headshot_b.jpg"
+            src="/headshot_c.jpeg"
             alt="Flynn Reiter"
             fill
             className="object-contain"
