@@ -1,23 +1,38 @@
 import React from "react";
 
-export default function SideDecor({ children }: { children: React.ReactNode }) {
+type SideDecorProps = {
+  children: React.ReactNode;
+  /** Height of your fixed header in pixels */
+  headerHeight?: number;
+};
+
+export default function SideDecor({
+  children,
+  headerHeight = 64, // adjust to your header
+}: SideDecorProps) {
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      style={{ ["--header-h" as any]: `${headerHeight}px` }}
+    >
+      {/* Reserve space so content doesn't run under the strips */}
+      <div className="px-16 sm:px-20 md:px-28">
+        <div className="relative z-10">{children}</div>
+      </div>
+
       <FloralStrip side="left" />
       <FloralStrip side="right" />
-      <div className="relative z-10">{children}</div>
     </div>
   );
 }
 
 function FloralStrip({ side }: { side: "left" | "right" }) {
-  const baseStyle: React.CSSProperties = {
-  color: "var(--plum)",
-    opacity: 0.45,
-  };
+  const baseStyle: React.CSSProperties = { color: "var(--plum)", opacity: 0.45 };
 
   const classes =
-    "pointer-events-none fixed top-0 h-full w-28 " +
+    "pointer-events-none absolute z-10 " +
+    "top-[var(--header-h)] bottom-0 " +
+    "w-16 sm:w-20 md:w-28 " +
     (side === "left" ? "left-0" : "right-0") +
     (side === "right" ? " scale-x-[-1]" : "");
 
@@ -27,7 +42,7 @@ function FloralStrip({ side }: { side: "left" | "right" }) {
       className={classes}
       style={baseStyle}
       viewBox="0 0 100 600"
-      preserveAspectRatio="none"
+      preserveAspectRatio="xMidYMid slice"
       fill="none"
     >
       {BLOSSOMS.map((f, i) => (
@@ -92,9 +107,11 @@ function Flower({
     );
   });
 
+  const minOpacityRatio = 0.5;
+
   return (
     <g transform={`translate(${x} ${y})`}>
-      <g transform={`scale(${minScale})`} opacity={0}>
+      <g transform={`scale(${minScale})`} opacity={maxOpacity * minOpacityRatio}>
         <animateTransform
           attributeName="transform"
           attributeType="XML"
@@ -107,10 +124,7 @@ function Flower({
         />
         <animate
           attributeName="opacity"
-          values={`0; ${maxOpacity}; ${maxOpacity * 0.75}; ${Math.min(
-            0.2,
-            maxOpacity * 0.3
-          )}`}
+          values={`${maxOpacity * minOpacityRatio}; ${maxOpacity}; ${maxOpacity * 0.75}; ${maxOpacity * minOpacityRatio}`}
           keyTimes="0; 0.35; 0.7; 1"
           dur={`${dur}s`}
           begin={`${delay}s`}
@@ -144,11 +158,11 @@ function Flower({
 
 
 const BLOSSOMS = [
-  { x: 48, y: 40, s: 1.25, o: 0.95, dur: 22 },
-  { x: 55, y: 120, s: 1.15, o: 0.9, dur: 20},
-  { x: 45, y: 210, s: 1.35, o: 0.9, dur: 18 },
-  { x: 53, y: 290, s: 1.2, o: 0.95, dur: 21 },
-  { x: 47, y: 370, s: 1.4, o: 0.9, dur: 23 },
-  { x: 52, y: 450, s: 1.45, o: 0.95, dur: 19 },
-  { x: 50, y: 530, s: 1.22, o: 0.9, dur: 20 },
+  { x: 48, y: 40, s: 1.25, o: 0.95, dur: 25 },
+  { x: 55, y: 120, s: 1.15, o: 0.9, dur: 22},
+  { x: 45, y: 210, s: 1.35, o: 0.9, dur: 20 },
+  { x: 53, y: 290, s: 1.2, o: 0.95, dur: 23 },
+  { x: 47, y: 370, s: 1.4, o: 0.9, dur: 24 },
+  { x: 52, y: 450, s: 1.45, o: 0.95, dur: 21 },
+  { x: 50, y: 530, s: 1.22, o: 0.9, dur: 22 },
 ];
