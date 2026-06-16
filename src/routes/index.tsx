@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
 const PROJECTS = [
   {
     name: "Droppshipper detection for Etsy",
-    blurb: "Extension for determining the liklihood of AI-generated context or drop-shipped items on Etsy. Targetting release date for this extension late 2026.",
+    blurb: "Extension for determining the likelihood of AI-generated context or drop-shipped items on Etsy. Targetting release date for this extension late 2026.",
     stack: ["Go", "Postgres", "Redis", "gRPC"],
     color: "bg-mustard",
   },
