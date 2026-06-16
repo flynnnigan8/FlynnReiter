@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
 const PROJECTS = [
   {
     name: "Droppshipper detection for Etsy",
-    blurb: "Extension for determining the liklihood of AI-generated context or drop-shipped items on Etsy. Targetting release date for this extension early 2026",
+    blurb: "Extension for determining the liklihood of AI-generated context or drop-shipped items on Etsy. Targetting release date for this extension late 2026.",
     stack: ["Go", "Postgres", "Redis", "gRPC"],
     color: "bg-mustard",
   },
@@ -60,7 +60,7 @@ function Index() {
       <header className="border-b-4 border-ink bg-cream">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#top" className="font-display text-xl text-cherry">
-            FLYNN.REITER<span className="text-ink">/</span><span className="text-teal">EXE</span>
+            FLYNN<span className="text-ink">.</span><span className="text-teal">REITER</span>
           </a>
           <div className="flex items-center gap-4">
             <nav className="hidden gap-6 font-pixel text-2xl md:flex">
@@ -102,8 +102,6 @@ function Index() {
 
       {/* PORTRAIT */}
       <section id="top" className="relative overflow-hidden">
-        <Cherry className="absolute -top-6 right-10 w-28 rotate-12 md:w-40" />
-        <Cherry className="absolute bottom-10 left-4 w-20 -rotate-12 md:w-28" />
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-5 md:py-24">
           <div className="md:col-span-3">
             <p className="font-pixel text-2xl text-cherry-dark">&gt; loading_profile.bat</p>
@@ -166,11 +164,11 @@ function Index() {
 
       {/* ABOUT */}
       <section id="about" className="mx-auto max-w-6xl px-6 py-20">
-        <SectionTitle eyebrow="01 // about" title="A software engineer who likes to have fun" />
+        <SectionTitle eyebrow="01 // about" title="A software engineer who loves to dance" />
         <div className="mt-8 grid gap-8 md:grid-cols-3">
           {[
-            { h: "What I do", p: "Design and ship reliable services." },
-            { h: "How I work", p: "Simple and effective." },
+            { h: "What I do", p: "Design and ship reliable services, mostly in Python." },
+            { h: "How I work", p: "With deep care for quality, effective communication, and only making things as complex as necessary." },
             { h: "Outside work", p: "Personal projects, hiking, reading, beach sports. 🌴" },
           ].map((c) => (
             <div key={c.h} className="chunky-border bg-cream p-6">
@@ -185,7 +183,7 @@ function Index() {
       <section id="resume" className="border-y-4 border-ink bg-teal">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-20 md:grid-cols-2">
           <div>
-            <SectionTitle eyebrow="02 // resume" title="Grab the official paperwork" dark />
+            <SectionTitle eyebrow="02 // resume" title="Here, take my resume" dark />
             <p className="mt-6 max-w-md text-ink/80">
               My entire career in one page :)
             </p>
@@ -194,10 +192,10 @@ function Index() {
             <div className="chunky-border-lg bg-cream p-6 w-full max-w-sm">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-pixel text-2xl text-cherry-dark">resume.pdf</p>
-                  <p className="text-sm text-ink/60">42 KB • Updated 2026</p>
+                  <p className="font-pixel text-2xl text-cherry-dark">Flynns_resume.pdf</p>
+                  <p className="text-sm text-ink/60">899 KB • Updated 2026</p>
                 </div>
-                <Cherry className="w-14" />
+                🍒
               </div>
               <a
                 href="/resume.pdf"
@@ -213,7 +211,7 @@ function Index() {
 
       {/* PROJECTS */}
       <section id="projects" className="mx-auto max-w-6xl px-6 py-20">
-        <SectionTitle eyebrow="03 // projects" title="Stuff I've actually shipped" />
+        <SectionTitle eyebrow="03 // projects" title="Stuff I've actually made" />
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {PROJECTS.map((p, i) => (
             <article
@@ -242,7 +240,7 @@ function Index() {
         <div className="mx-auto max-w-6xl px-6 py-20 text-center">
           <SectionTitle eyebrow="04 // contact" title="Let's talk" centered />
           <p className="mx-auto mt-6 max-w-xl text-ink/80">
-            Open to software roles where I can design and build reliable backend systems. If you'd like to reach out, e-mail is fastest.
+            Open to software roles where I can design and build reliable, and scalable backend systems. If you'd like to reach out, e-mail is fastest.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <a
@@ -268,14 +266,13 @@ function Index() {
               LINKEDIN
             </a>
           </div>
-          <Cherry className="mx-auto mt-12 w-20" />
         </div>
       </section>
 
       <footer className="border-t-4 border-ink bg-ink text-cream">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-6 py-6 md:flex-row">
-          <p className="font-pixel text-xl">© 1999–2026 Flynn Reiter. All rights reserved-ish.</p>
-          <p className="font-pixel text-xl text-mustard">made with 🍒 + caffeine</p>
+          <p className="font-pixel text-xl">© 1999–2026 Flynn Reiter. All rights reserved-ish. 🍒</p>
+          <p className="font-pixel text-xl text-mustard">made with caffeine</p>
         </div>
       </footer>
 
