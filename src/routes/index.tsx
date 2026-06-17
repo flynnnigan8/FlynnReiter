@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import personalPortrait from "@/assets/headshot_b.jpg";
 import cherriesImg from "@/assets/cherries.png";
 import { Github, Linkedin, Mail } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -55,21 +56,21 @@ function Cherry({ className = "" }: { className?: string }) {
 
 function Index() {
   return (
-    <main className="min-h-screen text-foreground">
+    <main className="min-h-screen overflow-x-hidden text-foreground">
       {/* NAV */}
       <header className="border-b-4 border-ink bg-cream">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <a href="#top" className="font-display text-xl text-cherry">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
+          <a href="#top" className="font-display text-base text-cherry sm:text-xl">
             FLYNN<span className="text-ink">.</span><span className="text-teal">REITER</span>
           </a>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             <nav className="hidden gap-6 font-pixel text-2xl md:flex">
               <a href="#about" className="hover:text-cherry">about</a>
               <a href="#resume" className="hover:text-cherry">resume</a>
               <a href="#projects" className="hover:text-cherry">projects</a>
               <a href="#contact" className="hover:text-cherry">contact</a>
             </nav>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <a
                 href="mailto:jreiter92@yahoo.com"
                 className="flex h-9 w-9 items-center justify-center border-2 border-ink bg-cream text-ink shadow-[3px_3px_0_0_var(--ink)] transition hover:-translate-y-0.5 hover:text-cherry"
@@ -102,10 +103,10 @@ function Index() {
 
       {/* PORTRAIT */}
       <section id="top" className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-5 md:py-24">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-5 md:py-24">
           <div className="md:col-span-3">
-            <p className="font-pixel text-2xl text-cherry-dark">&gt; loading_profile.bat</p>
-            <h1 className="mt-3 font-display text-5xl leading-tight text-ink md:text-7xl">
+            <CherryCatcher />
+            <h1 className="mt-3 font-display text-4xl leading-tight text-ink sm:text-5xl md:text-7xl">
               Hi, I'm Flynn.<br />
               <span className="text-cherry">I build the parts</span><br />
               <span className="bg-mustard px-2 chunky-border inline-block">you don't see.</span>
@@ -163,7 +164,7 @@ function Index() {
       </div>
 
       {/* ABOUT */}
-      <section id="about" className="mx-auto max-w-6xl px-6 py-20">
+      <section id="about" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
         <SectionTitle eyebrow="01 // about" title="A software engineer who loves to dance" />
         <div className="mt-8 grid gap-8 md:grid-cols-3">
           {[
@@ -181,7 +182,7 @@ function Index() {
 
       {/* RESUME */}
       <section id="resume" className="border-y-4 border-ink bg-teal">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-20 md:grid-cols-2">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-20 sm:px-6 md:grid-cols-2">
           <div>
             <SectionTitle eyebrow="02 // resume" title="Here, take my resume" dark />
             <p className="mt-6 max-w-md text-ink/80">
@@ -210,7 +211,7 @@ function Index() {
       </section>
 
       {/* PROJECTS */}
-      <section id="projects" className="mx-auto max-w-6xl px-6 py-20">
+      <section id="projects" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
         <SectionTitle eyebrow="03 // projects" title="Stuff I've actually made" />
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {PROJECTS.map((p, i) => (
@@ -237,7 +238,7 @@ function Index() {
 
       {/* CONTACT */}
       <section id="contact" className="border-t-4 border-ink bg-mustard">
-        <div className="mx-auto max-w-6xl px-6 py-20 text-center">
+          <div className="mx-auto max-w-6xl px-4 py-20 text-center sm:px-6">
           <SectionTitle eyebrow="04 // contact" title="Let's talk" centered />
           <p className="mx-auto mt-6 max-w-xl text-ink/80">
             Open to software roles where I can design and build reliable, and scalable backend systems. If you'd like to reach out, e-mail is fastest.
@@ -270,7 +271,7 @@ function Index() {
       </section>
 
       <footer className="border-t-4 border-ink bg-ink text-cream">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-6 py-6 md:flex-row">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-6 sm:px-6 md:flex-row">
           <p className="font-pixel text-xl">© 1999–2026 Flynn Reiter. All rights reserved-ish. 🍒</p>
           <p className="font-pixel text-xl text-mustard">made with caffeine</p>
         </div>
@@ -283,6 +284,124 @@ function Index() {
         }
       `}</style>
     </main>
+  );
+}
+
+function CherryCatcher() {
+  // Cherry Lights Out puzzle. Click a tile to toggle it and its
+  // orthogonal neighbors. Goal: turn every cherry off. Each new game
+  // generates a fresh solvable board, so the puzzle is different every time.
+  const SIZE = 4;
+  const TOTAL = SIZE * SIZE;
+
+  const makeBoard = () => {
+    const board = Array(TOTAL).fill(false) as boolean[];
+    const toggle = (b: boolean[], i: number) => {
+      const row = Math.floor(i / SIZE);
+      const col = i % SIZE;
+      const idxs = [i];
+      if (row > 0) idxs.push(i - SIZE);
+      if (row < SIZE - 1) idxs.push(i + SIZE);
+      if (col > 0) idxs.push(i - 1);
+      if (col < SIZE - 1) idxs.push(i + 1);
+      idxs.forEach((k) => (b[k] = !b[k]));
+    };
+    // Apply 5–9 random presses from the solved state — guarantees solvability
+    // and a fresh layout every time.
+    const presses = 5 + Math.floor(Math.random() * 5);
+    for (let p = 0; p < presses; p++) {
+      toggle(board, Math.floor(Math.random() * TOTAL));
+    }
+    // Avoid the trivial already-solved case.
+    if (board.every((c) => !c)) toggle(board, Math.floor(Math.random() * TOTAL));
+    return board;
+  };
+
+  const [open, setOpen] = useState(false);
+  const [board, setBoard] = useState<boolean[]>(() => makeBoard());
+  const [moves, setMoves] = useState(0);
+  const [wins, setWins] = useState(0);
+
+  const solved = board.every((c) => !c);
+
+  const press = (i: number) => {
+    if (solved) return;
+    setBoard((prev) => {
+      const next = [...prev];
+      const row = Math.floor(i / SIZE);
+      const col = i % SIZE;
+      const idxs = [i];
+      if (row > 0) idxs.push(i - SIZE);
+      if (row < SIZE - 1) idxs.push(i + SIZE);
+      if (col > 0) idxs.push(i - 1);
+      if (col < SIZE - 1) idxs.push(i + 1);
+      idxs.forEach((k) => (next[k] = !next[k]));
+      return next;
+    });
+    setMoves((m) => m + 1);
+  };
+
+  useEffect(() => {
+    if (solved && moves > 0) setWins((w) => w + 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [solved]);
+
+  const newGame = () => {
+    setBoard(makeBoard());
+    setMoves(0);
+  };
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="font-pixel text-2xl text-cherry-dark hover:text-cherry text-left"
+        aria-expanded={open}
+      >
+        &gt; loading_profile.bat{open ? " ▾" : " ▸"}
+      </button>
+      {open && (
+        <div className="mt-3 chunky-border bg-cream p-4 max-w-md animate-fade-in">
+          <div className="flex items-center justify-between font-pixel text-xl">
+            <span className="text-cherry-dark">🍒 CHERRY PICKER</span>
+            <span className="text-ink">{solved ? "solved!" : `${moves} moves`}</span>
+          </div>
+          <p className="mt-1 font-sans text-sm text-ink/70">
+            Tap a tile to flip it and its neighbors. Clear every cherry to win.
+            New puzzle every game.
+          </p>
+          <div className="mt-3 grid grid-cols-4 gap-2">
+            {board.map((on, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => press(i)}
+                disabled={solved}
+                className={`aspect-square border-2 border-ink text-3xl flex items-center justify-center transition hover:-translate-y-0.5 ${
+                  on ? "bg-cherry" : "bg-blush"
+                }`}
+                aria-label={on ? "cherry on" : "empty"}
+              >
+                {on ? "🍒" : ""}
+              </button>
+            ))}
+          </div>
+          <div className="mt-3 flex items-center justify-between font-pixel text-xl">
+            <span>
+              WINS: <span className="text-cherry">{wins}</span>
+            </span>
+            <button
+              type="button"
+              onClick={newGame}
+              className="chunky-border bg-cherry px-3 py-1 font-display text-cream text-sm hover:-translate-y-0.5 transition"
+            >
+              {solved ? "PLAY AGAIN" : "NEW PUZZLE"}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
